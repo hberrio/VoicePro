@@ -1,0 +1,142 @@
+<div class="container" [class.is-mobile]="(isHandset$ | async)" [style.marginTop.px]="(isHandset$ | async) ? 0 : 65">
+  <mat-divider></mat-divider>
+  <mat-grid-list rowHeight="2:1" [cols]="(isHandset$ | async) ? 1 : (isTablet$ | async) ? 2 : 4">
+    <mat-grid-tile>
+      <mat-card appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>WhisperX</mat-card-title>
+          <mat-card-subtitle>Herding group</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-form-field appearance="fill">
+            <mat-label>Choose File</mat-label>
+            <input matInput [value]="fileName" readonly />
+            <button mat-icon-button matSuffix (click)="fileInput.click()">
+              <mat-icon>attach_file</mat-icon>
+            </button>
+            <input type="file" #fileInput hidden (change)="onFileSelected($event)" />
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Choose a model</mat-label>
+            <mat-select [(ngModel)]="selectedModel">
+              @for (m of models; track m) {
+              <mat-option [value]="m">{{ m }}</mat-option>
+              }
+              @empty {
+              <mat-option disabled>No models available</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions>
+          <div class="button-group">
+            <button mat-fab extended (click)="transcribeAudioCurrentFileX()" [disabled]="!audioData || isLoading()">
+              ConvertX
+            </button>
+            <button mat-fab extended (click)="clearFile()" [disabled]="!audioData && !fileName">
+              Clear
+            </button>
+          </div>
+        </mat-card-actions>
+        <mat-card-footer>
+          @if (isLoading()) {
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          }
+        </mat-card-footer>
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <mat-card appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>Output</mat-card-title>
+          <mat-card-subtitle>Converted File</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngIf="convertedFileUrl()">
+            <h3>Converted File</h3>
+            <a [href]="convertedFileUrl()" target="_blank" download>Download</a>
+            <button mat-icon-button matSuffix (click)="downloadFile()">
+              <mat-icon>download</mat-icon>
+            </button>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button matButton="elevated">Learn More</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <mat-card appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>Audio Recording</mat-card-title>
+          <mat-card-subtitle>Herding group</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <!-- Botones de grabación -->
+          <div class="record-controls">
+            <button mat-raised-button color="primary" (click)="startRecording()" [disabled]="recording()">
+              🎙️ Start Recording
+            </button>
+            <button mat-raised-button color="warn" (click)="stopRecording()" [disabled]="!recording()">
+              ⏹ Stop Recording
+            </button>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button matButton="filled">Learn More</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <mat-card appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>Output</mat-card-title>
+          <mat-card-subtitle>Herding group</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions>
+          <button matButton="elevated">Learn More</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div> <!-- ✅ aquí cierro el primer container -->
+
+<!-- ✅ ahora empieza el segundo container -->
+<div class="container">
+  <!-- Grabación en tiempo real -->
+  <mat-card class="record-card">
+    <button mat-raised-button color="accent" (click)="startRecording()" [disabled]="recording()">
+      Start Recording
+    </button>
+    <button mat-raised-button color="warn" (click)="stopRecording()" [disabled]="!recording()">
+      Stop Recording
+    </button>
+
+    <mat-progress-bar *ngIf="isLoading()" mode="indeterminate"></mat-progress-bar>
+  </mat-card>
+
+  <!-- Estilos de escritura -->
+  <mat-card class="style-card">
+    <mat-label>Estilo de escritura:</mat-label>
+    <mat-select [(ngModel)]="selectedStyle" (selectionChange)="applyStyle()">
+      <mat-option *ngFor="let style of writingStyles" [value]="style">{{ style }}</mat-option>
+    </mat-select>
+  </mat-card>
+
+  <!-- Comparación antes/después -->
+  <mat-card class="comparison-card">
+    <h4>Transcripción Original:</h4>
+    <p>{{ transcript() }}</p>
+
+    <h4>Texto Formateado:</h4>
+    <p>{{ formattedText() }}</p>
+  </mat-card>
+</div>
+
+<footer class="footer">
+  <span>© 2025 VoicePro</span>
+</footer>

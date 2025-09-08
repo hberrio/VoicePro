@@ -1,0 +1,27 @@
+mat-card {
+    position: block;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+}
+mat-grid-tile {
+  padding: 10px; /* opcional: da espacio entre los tiles */
+}
+
+mat-grid-tile mat-card {
+  width: 88%;
+  height: 88%;
+  display: flex;      /* para que el contenido interno pueda expandirse */
+  flex-direction: column;
+}
+.button-group {
+  display: flex;
+  gap: 10px; /* espacio entre los botones */
+}
+mat-card-content {
+  display: flex;
+  flex-direction: row; /* Para que queden en la misma línea*/
+  gap: 16px;           /* Espaciado entre ellos (ajusta el valor a tu gusto)*/
+}
+

@@ -1,0 +1,21 @@
+<div class="header-container" [class.is-mobile]="(isHandset$ | async)">
+  <mat-toolbar>
+    <button mat-icon-button class="icon-animated" role="heading" aria-label="icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <button matButton="tonal" routerLink="/">{{ title() }}</button>
+    <button mat-button routerLink="/products">Products</button>
+    <button mat-button routerLink="/form">Services</button>
+    <button mat-button routerLink="/dashboardsuper">Orders</button>
+    <span class="spacer"></span>
+    <button mat-button routerLink="/cart"><mat-icon
+        matBadgeColor="accent" matBadgeSize="medium">shopping_cart</mat-icon></button>
+    <ng-container>
+      <a mat-button routerLink="/signin" routerLinkActive="active">SignIn</a>
+      <a mat-button routerLink="/signup" routerLinkActive="active">SignUp</a>
+    </ng-container>
+    <ng-template #loggedIn>
+      <button mat-button ><mat-icon>account_circle</mat-icon></button>
+    </ng-template>
+  </mat-toolbar>
+</div>
