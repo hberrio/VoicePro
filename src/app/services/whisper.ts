@@ -1,4 +1,5 @@
 import { Injectable, signal } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class Whisper {
       formData.append('audio', file, file instanceof File ? file.name : `audio-${Date.now()}.${file.type.split('/')[1]}`);
       formData.append('model', selectedModel); // 👈 enviamos el modelo al backend
 
-      const response = await fetch('http://localhost:3000/transcribe-whisperx', {
+      const response = await fetch(`${environment.apiUrl}/transcribe-whisperx`, {
         method: 'POST',
         body: formData
       });
