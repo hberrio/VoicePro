@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://whisper-backend-16jw.onrender.com'
+    apiUrl: 'whisper-backend-production.up.railway.app'
 };
